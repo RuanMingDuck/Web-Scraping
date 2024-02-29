@@ -23,22 +23,22 @@ label_amount.pack()
 entry_amount = tk.Entry(window)
 entry_amount.pack(pady=8,ipadx=5)
 
-# Create a StringVar to hold the label text
+# Hold label text
 label_text = tk.StringVar()
 
-# Create a label to display the status
+# Label to display the status
 status_label = ttk.Label(window, textvariable=label_text)
 status_label.pack(pady=10)
 
 def download_images():
-    # Get the URL and the number of images from the entry fields
+    # Get url and img numbers
     base_url = entry_url.get()
     try:
         image_amount = int(entry_amount.get())
     except ValueError:
         Messagebox.error("Invalid Input", "Please enter a valid number for the image amount.")
         return
-    # Check if the URL is valid
+    # Check url valid?
     if not base_url.startswith('http'):
         Messagebox.error("Invalid URL", "Please enter a valid URL.")
         return  
@@ -56,7 +56,7 @@ def download_images():
         print("pic_url: ",pic_url)  
         base_url = pic_url
         print("base_url: ",base_url)
-        # Create a directory to save images if it doesn't exist
+        # Create folder
         if not os.path.exists(title_url):
             os.makedirs(title_url)
         for img_number in range(1, image_amount + 1):       
@@ -64,9 +64,9 @@ def download_images():
             print("img_url: ",img_url)
             try:
                 response = requests.get(img_url)
-                response.raise_for_status()  # Raise an exception if the request failed
+                response.raise_for_status()  
                 
-                # Update the label text with the download status
+                # Update the label 
                 label_text.set(f"Download {img_url} Completed !")
                 window.update_idletasks()  # Update the GUI to reflect the change
 
@@ -90,7 +90,7 @@ def download_images():
         
 
 def start_download():
-    # Start the download process in a separate thread
+    # Thread
     download_thread = threading.Thread(target=download_images)
     download_thread.start()
 
